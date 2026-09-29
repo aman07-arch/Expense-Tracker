@@ -1,11 +1,7 @@
-# helpers.py
-# Input validation functions used by the menu in main.py
-
 from datetime import datetime
 
 
 def is_valid_date(date_string):
-    # check that the date is in YYYY-MM-DD format and is a real date
     try:
         datetime.strptime(date_string, "%Y-%m-%d")
         return True
@@ -14,16 +10,13 @@ def is_valid_date(date_string):
 
 
 def get_today():
-    # returns today's date as a YYYY-MM-DD string
     return datetime.now().strftime("%Y-%m-%d")
 
 
 def get_positive_float(prompt):
-    # keep asking until the user enters a positive number
     while True:
         user_input = input(prompt).strip()
         try:
-            # convert input string to float and check if positive
             value = float(user_input)
             if value <= 0:
                 print("Amount must be greater than 0. Try again.")
@@ -34,7 +27,6 @@ def get_positive_float(prompt):
 
 
 def get_valid_date(prompt):
-    # ask for a date, press enter to use today's date
     while True:
         user_input = input(prompt).strip()
         if user_input == "":
@@ -45,7 +37,6 @@ def get_valid_date(prompt):
 
 
 def get_non_empty_string(prompt):
-    # keep asking until the user types something
     while True:
         user_input = input(prompt).strip()
         if user_input != "":
@@ -54,7 +45,6 @@ def get_non_empty_string(prompt):
 
 
 def get_menu_choice(prompt, min_num, max_num):
-    # get an integer between min_num and max_num
     while True:
         user_input = input(prompt).strip()
         try:
@@ -68,7 +58,6 @@ def get_menu_choice(prompt, min_num, max_num):
 
 
 def get_yes_no(prompt):
-    # returns True for yes, False for no
     while True:
         user_input = input(prompt).strip().lower()
         if user_input == "y" or user_input == "yes":
@@ -79,7 +68,6 @@ def get_yes_no(prompt):
 
 
 def get_month_string(prompt):
-    # asks for a month like 2025-03, or blank for all time
     while True:
         user_input = input(prompt).strip()
         if user_input == "":

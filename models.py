@@ -1,7 +1,3 @@
-# models.py
-# Data classes for the expense tracker
-
-
 class Transaction:
     def __init__(self, trans_id, date, category, amount, description, trans_type="expense"):
         self.id = trans_id
@@ -12,7 +8,6 @@ class Transaction:
         self.trans_type = trans_type      # "expense" or "income"
 
     def to_dict(self):
-        # convert the object to a dictionary so it can be saved as JSON
         return {
             "id": self.id,
             "date": self.date,
@@ -24,8 +19,6 @@ class Transaction:
 
     @staticmethod
     def from_dict(data):
-        # rebuild a Transaction object from a dictionary loaded from JSON
-        # old data might not have a type field, so default to expense
         trans_type = data.get("type", "expense")
         return Transaction(
             data["id"],
@@ -43,7 +36,6 @@ class Transaction:
 class Budget:
     def __init__(self, total_limit=0.0, category_limits=None):
         self.total_limit = total_limit
-        # dictionary like {"Food": 200.0, "Transport": 50.0}
         if category_limits is None:
             self.category_limits = {}
         else:
@@ -56,7 +48,6 @@ class Budget:
         self.category_limits[category] = amount
 
     def get_category_limit(self, category):
-        # return 0 if no budget has been set for this category
         if category in self.category_limits:
             return self.category_limits[category]
         return 0.0
@@ -66,7 +57,6 @@ class Budget:
             "total_limit": self.total_limit,
             "category_limits": self.category_limits
         }
-
     @staticmethod
     def from_dict(data):
         total_limit = data.get("total_limit", 0.0)

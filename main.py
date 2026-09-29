@@ -1,12 +1,7 @@
-# main.py
-# Entry point for the Personal Expense & Budget Tracker
-# Run with: python main.py
-
 import storage
 import budget_manager
 import helpers
 import display
-
 
 def add_expense_flow(transactions, budget):
     display.print_title("ADD EXPENSE")
@@ -15,13 +10,11 @@ def add_expense_flow(transactions, budget):
     amount = helpers.get_positive_float("Amount: ")
     description = helpers.get_non_empty_string("Description: ")
 
-    # store categories in Title Case so "food" and "Food" are the same
     category = category.title()
 
     new_trans = budget_manager.add_transaction(transactions, date, category, amount, description, "expense")
     display.show_message("Expense added with ID " + str(new_trans.id))
 
-    # check if this expense pushed the user over a budget limit
     warnings = budget_manager.check_budget(transactions, budget)
     display.show_warnings(warnings)
 
@@ -54,7 +47,6 @@ def view_summary_flow(transactions, budget):
 
     display.show_summary(total_income, total_spending, balance, period_label)
 
-    # also show budget warnings under the summary
     warnings = budget_manager.check_budget(period_transactions, budget)
     display.show_warnings(warnings)
 
@@ -97,7 +89,6 @@ def delete_flow(transactions):
 
 
 def set_budget_flow(transactions, budget):
-    # show what is currently set first
     cat_totals = budget_manager.get_category_totals(transactions)
     total_spent = budget_manager.get_total_spending(transactions)
     display.show_budget_status(budget, cat_totals, total_spent)
@@ -131,7 +122,6 @@ def export_flow(transactions):
 
 
 def run_menu(transactions, budget):
-    # the main menu loop, runs until the user picks Save & Exit
     while True:
         display.show_main_menu()
 
@@ -140,7 +130,6 @@ def run_menu(transactions, budget):
         except ValueError:
             print("Invalid input. Please enter a number from 1 to 9.")
             continue
-
         if user_choice == 1:
             add_expense_flow(transactions, budget)
             storage.save_data(transactions, budget)
@@ -170,14 +159,12 @@ def run_menu(transactions, budget):
 
 
 def main():
-    # load saved data (or start fresh if there is none)
     transactions, budget = storage.load_data()
     print("Welcome! Loaded " + str(len(transactions)) + " saved transactions.")
 
     try:
         run_menu(transactions, budget)
     except (KeyboardInterrupt, EOFError):
-        # user pressed Ctrl+C or Ctrl+D, save what we have and quit nicely
         print("\n\nProgram interrupted. Saving your data...")
         storage.save_data(transactions, budget)
         print("Data saved. Goodbye!")

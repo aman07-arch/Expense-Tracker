@@ -1,8 +1,4 @@
-# display.py
-# Functions that print menus, tables and summaries using plain ASCII borders
-
 LINE_WIDTH = 60
-
 
 def print_line(char="="):
     print(char * LINE_WIDTH)
@@ -36,13 +32,11 @@ def show_transactions_table(transactions):
 
     print()
     print_line("=")
-    # header row
     print("{:<4} {:<11} {:<8} {:<13} {:>9}  {}".format(
         "ID", "Date", "Type", "Category", "Amount", "Description"))
     print_line("-")
 
     for t in transactions:
-        # cut long descriptions so the table doesn't get messy
         desc = t.description
         if len(desc) > 18:
             desc = desc[:15] + "..."
@@ -82,7 +76,6 @@ def show_category_breakdown(cat_totals, percentages):
     print_line("-")
 
     for cat in cat_totals:
-        # draw a simple bar, 1 star for every 5 percent
         num_stars = int(percentages[cat] / 5)
         bar = "*" * num_stars
 

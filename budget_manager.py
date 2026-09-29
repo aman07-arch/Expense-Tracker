@@ -1,11 +1,7 @@
-# budget_manager.py
-# Core logic: adding/deleting transactions, totals, breakdowns, budget checks
-
 from models import Transaction
 
 
 def get_next_id(transactions):
-    # find the highest id so far and add 1
     highest = 0
     for t in transactions:
         if t.id > highest:
@@ -21,7 +17,6 @@ def add_transaction(transactions, date, category, amount, description, trans_typ
 
 
 def delete_transaction(transactions, trans_id):
-    # look for the transaction with this id and remove it
     for t in transactions:
         if t.id == trans_id:
             transactions.remove(t)
@@ -30,13 +25,11 @@ def delete_transaction(transactions, trans_id):
 
 
 def filter_by_month(transactions, month):
-    # month is like "2025-03", empty string means no filter
     if month == "":
         return transactions
 
     filtered = []
     for t in transactions:
-        # the first 7 characters of the date are YYYY-MM
         if t.date[:7] == month:
             filtered.append(t)
     return filtered
@@ -59,12 +52,10 @@ def get_total_income(transactions):
 
 
 def get_balance(transactions):
-    # income minus spending
     return round(get_total_income(transactions) - get_total_spending(transactions), 2)
 
 
 def get_category_totals(transactions):
-    # add up expenses for each category
     cat_totals = {}
     for t in transactions:
         if t.trans_type == "expense":
@@ -73,7 +64,6 @@ def get_category_totals(transactions):
             else:
                 cat_totals[t.category] = t.amount
 
-    # round everything to 2 decimals
     for cat in cat_totals:
         cat_totals[cat] = round(cat_totals[cat], 2)
 
@@ -81,7 +71,6 @@ def get_category_totals(transactions):
 
 
 def get_category_percentages(cat_totals):
-    # what percent of total spending does each category take
     total = 0.0
     for cat in cat_totals:
         total += cat_totals[cat]
@@ -96,7 +85,6 @@ def get_category_percentages(cat_totals):
 
 
 def get_top_category(cat_totals):
-    # returns the category name with the highest spending, or None
     top_cat = None
     top_amount = 0.0
     for cat in cat_totals:
@@ -107,7 +95,6 @@ def get_top_category(cat_totals):
 
 
 def search_by_category(transactions, category):
-    # filter expenses by category (ignores upper/lower case)
     results = []
     for t in transactions:
         if t.category.lower() == category.lower():
@@ -116,12 +103,10 @@ def search_by_category(transactions, category):
 
 
 def check_budget(transactions, budget):
-    # compares spending to budget limits and returns a list of warning messages
     warnings = []
     total_spent = get_total_spending(transactions)
     cat_totals = get_category_totals(transactions)
 
-    # check the overall limit first
     if budget.total_limit > 0:
         used_percent = (total_spent / budget.total_limit) * 100
         if total_spent > budget.total_limit:
@@ -130,7 +115,6 @@ def check_budget(transactions, budget):
         elif used_percent >= 80:
             warnings.append("WARNING: you have used " + str(round(used_percent, 1)) + "% of your total budget")
 
-    # now check each category that has a limit
     for cat in budget.category_limits:
         limit = budget.category_limits[cat]
         if limit <= 0:
