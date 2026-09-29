@@ -5,7 +5,13 @@ from models import Transaction, Budget
 
 DATA_FILE = "expenses.json"
 
+def load_expenses():
+  if not os.path.exists(DATA_FILE):
+    return []  # Return empty list if file doesn't exist yet
 
+  with open(DATA_FILE, "r") as f:
+    return json.load(f)
+  
 def load_data():
     transactions = []
     budget = Budget()
