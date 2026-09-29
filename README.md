@@ -168,22 +168,6 @@ The program can be tested manually by running it and using the menu options:
 
 
 
-\## Screenshots
-
-\*(Add screenshots here after running the program, e.g. the main menu, adding a transaction, and the summary screen)\*
-
-
-
-\[Insert screenshot: Main Menu]
-
-\[Insert screenshot: Adding a Transaction]
-
-\[Insert screenshot: Summary Output]
-
-
-
-
-
 \## Files in This Repository
 
 \- `main.py` — complete source code for the application
