@@ -2,16 +2,19 @@ import json
 import os
 
 from models import Transaction, Budget
+BASE_DIR = os.path.dirname(os.path.abspath(__file__))
+DATA_FILE = os.path.join(BASE_DIR, "expenses.json")
 
-DATA_FILE = "expenses.json"
+def save_expenses(expenses):
+  # 1. Create parent folders if they don't exist
+  folder = os.path.dirname(DATA_FILE)
+  if folder:
+    os.makedirs(folder, exist_ok=True)
 
-def load_expenses():
-  if not os.path.exists(DATA_FILE):
-    return []  # Return empty list if file doesn't exist yet
+  # 2. Write/create expenses.json
+  with open(DATA_FILE, "w") as f:
+    json.dump(expenses, f, indent=4)
 
-  with open(DATA_FILE, "r") as f:
-    return json.load(f)
-  
 def load_data():
     transactions = []
     budget = Budget()
